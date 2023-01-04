@@ -1,7 +1,8 @@
 <template>
-	<h1>TEST</h1>
+	<h1>Vue & Pinia Todolist</h1>
 </template>
 
+<!-- Template / Script -->
 
 <script>
 	export default {
@@ -22,6 +23,7 @@
 	}
 </script>
 
+<!-- Script / Style -->
 
 <style>
 
