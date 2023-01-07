@@ -20,6 +20,7 @@
 
 <style>
     .btn_green, .btn_blue, .btn_red {
+        outline: none;
         font-family: 'Raleway', sans-serif;
         font-weight: 600;
         width: 100%;
@@ -28,6 +29,7 @@
         height: 60px;
         font-size: 16px;
         margin: 0 auto;
+        font-size: 1.2em;
     }
 
     .btn_green {

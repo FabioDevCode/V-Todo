@@ -4,6 +4,7 @@ import router from './router'
 import App from './App.vue'
 
 import './assets/main.css'
+import "toastify-js/src/toastify.css"
 
 const app = createApp(App)
 app.use(createPinia())
