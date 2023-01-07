@@ -55,6 +55,8 @@
                 if(!this.actualData.list_name.includes(this.inputNewList)) {
                     this.addNewList(mewList);
                     this.inputNewList = '';
+
+                    this.$router.push('/V-Todo/List');
                 } else {
                     Toastify({
                         text: "Une liste avec ce nom existe déjà.",
@@ -64,15 +66,13 @@
                         position: "center", // `left`, `center` or `right`
                         stopOnFocus: true, // Prevents dismissing of toast on hover
                         style: {
-                            fontWeight: 500,
+                            fontWeight: 600,
                             background: "#AB2346",
                             color: "#FAFAFA",
                         }
                     }).showToast();
                 }
-
             }
-
 		}
 	}
 </script>

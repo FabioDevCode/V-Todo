@@ -13,28 +13,23 @@
 
 <!-- Template / Script -->
 <script>
-	import Button from '@/components/Button.vue'
-	import FormList from '@/components/FormList.vue'
 	import Header from '@/components/Header.vue'
 	import Footer from '@/components/Footer.vue'
+	import Button from '@/components/Button.vue'
+	import FormList from '@/components/FormList.vue'
 
 	export default {
 		name: 'Home',
 		components: {
-			Button,
-			FormList,
 			Header,
-			Footer
+			Footer,
+			Button,
+			FormList
 		},
 		data() {
 			return {
-				current_list: null,
-				task: {}
+
 			}
-		},
-		mounted() {
-
-
 		},
 		methods: {
 
