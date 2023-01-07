@@ -16,7 +16,6 @@
 <style scoped>
     header {
 		display: flex;
-		margin-bottom: 100px;
 	}
 	header h1 {
 		font-size: 3.6em;

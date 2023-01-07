@@ -1,13 +1,14 @@
 <template>
     <form id="formlist" @submit.prevent>
         <input v-model="inputNewList" placeholder="Nom de la liste">
-        <Button class="btns" name="Créer une liste" type="btn_green" @click="createNewList()" />
+        <Button @submit.prevent class="btns" name="Créer une liste" type="btn_green" @click="createNewList()" />
     </form>
 </template>
 <!-- Template/Script -->
 <script>
     import Toastify from 'toastify-js'
 	import Button from '@/components/Button.vue'
+    import { useListStore } from '@/stores/list.js'
 
     export default {
 		name: 'FormList',
@@ -46,6 +47,23 @@
                 this.actualData = JSON.parse(localStorage.getItem('f-devcode_v-todo'));
             },
             createNewList() {
+                if(this.inputNewList.length < 2) {
+                    Toastify({
+                        text: "Nom de liste trop court.",
+                        duration: 3000,
+                        newWindow: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "center", // `left`, `center` or `right`
+                        stopOnFocus: true, // Prevents dismissing of toast on hover
+                        style: {
+                            fontWeight: 600,
+                            background: "#AB2346",
+                            color: "#FAFAFA",
+                        }
+                    }).showToast();
+                    return;
+                }
+
                 const mewList = {
                     name: this.inputNewList,
                     status: 1,
@@ -54,6 +72,10 @@
 
                 if(!this.actualData.list_name.includes(this.inputNewList)) {
                     this.addNewList(mewList);
+                    const storeList = useListStore();
+                    storeList.list = this.inputNewList
+                    localStorage.setItem('f-devcode_actual-list', this.inputNewList);
+
                     this.inputNewList = '';
 
                     this.$router.push('/V-Todo/List');
@@ -96,6 +118,7 @@
         border-radius: 16px;
         border: 3px solid transparent;
         outline: none;
+        font-family: 'Raleway', sans-serif;
         font-size: 1.1em;
         font-weight: 400;
     }
