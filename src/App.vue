@@ -1,30 +1,10 @@
 <template>
-	<h1>Vue & Pinia Todolist</h1>
+	<router-view></router-view>
 </template>
 
 <!-- Template / Script -->
-
 <script>
 	export default {
-		name: 'VueTodo',
-		data() {
-			return {
-
-			}
-		},
-		mounted() {
-
-
-		},
-		methods: {
-
-
-		}
-	}
+		name: 'App',
+	};
 </script>
-
-<!-- Script / Style -->
-
-<style>
-
-</style>

@@ -9,6 +9,11 @@
 	--color-red: #AB2346;
 }
 
+h1, h2, h3, h4, h5, h6 {
+	display: inline-block;
+	width: max-content;
+}
+
 *, ::before, ::after {
 	box-sizing: border-box;
 	margin: 0;
@@ -20,11 +25,27 @@ a {
 	color: var(--color-black);
 }
 
+button {
+	cursor: pointer;
+	border: none;
+	border-radius: 16px;
+}
+button:active {
+	transform: scale(.98);
+}
+
 body {
+	width: 100%;
 	font-family: 'Raleway', sans-serif;
 	background-color: var(--color-black);
 	color: var(--color-white);
 	font-weight: 300;
 	height: auto;
-	font-size: 0.95em;
+	font-size: 1em;
+}
+
+#app {
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
 }
