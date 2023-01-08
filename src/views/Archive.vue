@@ -1,7 +1,7 @@
 <template>
 
     <SubTitle v-if="all_list_archive.length > 1" title="Listes archivées" />
-    <SubTitle title="Liste archivée" />
+    <SubTitle v-else title="Liste archivée" />
 
     <ul id="list">
         <li :key="all_list_archive.indexOf(list)" v-for="list in all_list_archive">
