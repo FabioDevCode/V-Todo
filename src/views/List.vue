@@ -3,7 +3,7 @@
     <SubTitle :title="'Ajout de tâche à '+ actualList.name" v-if="showModal" />
 
     <ul id="list" v-if="hideList">
-        <li :key="task.name" v-for="task in actualList.tasks" :class="'task ' + task.status">
+        <li :key="actualList.tasks.indexOf(task)" :id="'task'+actualList.tasks.indexOf(task)" v-for="task in actualList.tasks" :class="'task ' + task.status">
             <div class="text" @click="endedTask(actualList.tasks.indexOf(task), task.title)">
                 <h3>
                     {{ task.title }}
@@ -12,7 +12,7 @@
                     {{ task.desc }}
                 </p>
             </div>
-            <div class="trash" @click="supprTask(actualList.tasks.indexOf(task), task.title)">
+            <div class="trash" @click="supprTask(actualList.tasks.indexOf(task))">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M160 400C160 408.8 152.8 416 144 416C135.2 416 128 408.8 128 400V192C128 183.2 135.2 176 144 176C152.8 176 160 183.2 160 192V400zM240 400C240 408.8 232.8 416 224 416C215.2 416 208 408.8 208 400V192C208 183.2 215.2 176 224 176C232.8 176 240 183.2 240 192V400zM320 400C320 408.8 312.8 416 304 416C295.2 416 288 408.8 288 400V192C288 183.2 295.2 176 304 176C312.8 176 320 183.2 320 192V400zM317.5 24.94L354.2 80H424C437.3 80 448 90.75 448 104C448 117.3 437.3 128 424 128H416V432C416 476.2 380.2 512 336 512H112C67.82 512 32 476.2 32 432V128H24C10.75 128 0 117.3 0 104C0 90.75 10.75 80 24 80H93.82L130.5 24.94C140.9 9.357 158.4 0 177.1 0H270.9C289.6 0 307.1 9.358 317.5 24.94H317.5zM151.5 80H296.5L277.5 51.56C276 49.34 273.5 48 270.9 48H177.1C174.5 48 171.1 49.34 170.5 51.56L151.5 80zM80 432C80 449.7 94.33 464 112 464H336C353.7 464 368 449.7 368 432V128H80V432z"/></svg>
             </div>
         </li>
@@ -169,16 +169,16 @@
                         }
                     }).showToast();
             },
-            supprTask(indexTask, titleTask) {
-                const allTasks = document.querySelectorAll('.task')[indexTask];
-                allTasks.classList.add('none');
+            supprTask(indexTask) {
+                const newTasksUpdated = JSON.parse(JSON.stringify(this.actualList.tasks));
+                newTasksUpdated.splice(indexTask ,1);
 
-                this.actualList.tasks.splice(indexTask, 1);
+                this.actualList.tasks = newTasksUpdated;
 
                 const all_data = JSON.parse(localStorage.getItem('f-devcode_v-todo'));
                 all_data.list.map(el => {
                     if(el.name === this.list_name){
-                        el.tasks = this.actualList.tasks
+                        el.tasks = newTasksUpdated
                     }
                     return el
                 });
@@ -252,9 +252,7 @@
         margin-bottom: 5px;
         background-color: var(--color-white);
         border-radius: 16px 0 16px 16px;
-    }
-    #list li:active {
-        transform: scale(.99);
+        transition: all 200ms ease-in-out;
     }
 
     #list li div {
@@ -295,16 +293,10 @@
         line-height: 1.15em;
         font-weight: 400;
         background-color: transparent;
+        padding: 0 0 5px 0;
+        border-bottom: 3px solid transparent;
     }
-    #list li .text p::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(to top, var(--color-white) 30%, transparent 100%);
-        height: 25px;
-    }
+
     #list li .trash {
         display: flex;
         justify-content: center;
@@ -319,13 +311,13 @@
 
     #list li.ended {
         background-color: #a4a4a4;
+        border-radius: 16px 16px 16px 0;
+        transition: all 200ms ease-in-out;
     }
+
     #list li.ended .text h3, #list li.ended .text p {
         text-decoration: line-through;
         color: rgba(45, 49, 66, .7);
-    }
-    #list li.ended .text p::after {
-        background: linear-gradient(to top, #a4a4a4 30%, transparent 100%) ;
     }
 
     #list li.ended .trash svg {
@@ -363,16 +355,10 @@
         width: 100%;
         min-width: 200px;
         max-width: 300px;
-        /* background-color: rgba(45, 49, 66, .8); */
-        /* position: absolute; */
         display: flex;
         justify-content: center;
         align-items: center;
         margin: 0 auto 50px auto;
-        /* top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0; */
     }
 
     #back_modal form {
