@@ -41,7 +41,7 @@
     <div id="all_btns">
         <HomeBtn />
         <ListBtn />
-        <ArchiveAdd />
+        <ArchiveAdd @click="addToArchive()" />
     </div>
 
 </template>
@@ -226,6 +226,25 @@
                 localStorage.removeItem('f-devcode_actual-list');
 
                 this.$router.push('/V-Todo/');
+            },
+            addToArchive() {
+                console.log(this.list_name);
+
+                const archivedList = JSON.parse(JSON.stringify(this.actualList));
+                console.log(archivedList)
+
+                const all_data = JSON.parse(localStorage.getItem('f-devcode_v-todo'));
+
+                all_data.list.map(el => {
+                    if(el.name === this.list_name) {
+                        all_data.list.splice(all_data.list.indexOf(el), 1);
+                    }
+                });
+
+                all_data.list_archive.push(archivedList);
+                localStorage.setItem('f-devcode_v-todo', JSON.stringify(all_data));
+
+                this.$router.push('/V-Todo/Archive');
             }
 		}
 	}
