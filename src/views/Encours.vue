@@ -17,7 +17,11 @@
         </li>
     </ul>
 
-    <HomeBtn class="home_btn" />
+    <div id="all_btns">
+        <HomeBtn class="home_btn" />
+        <ArchiveBtn class="archive_add" />
+    </div>
+
 </template>
 
 <!-- Template / Script -->
@@ -25,6 +29,7 @@
 	import Button from '@/components/Button.vue'
     import HomeBtn from '@/components/HomeBtn.vue'
     import SubTitle from "@/components/SubTitle.vue"
+    import ArchiveBtn from '@/components/ArchiveBtn.vue'
     import { useListStore } from '@/stores/list.js'
 
 	export default {
@@ -33,6 +38,7 @@
             Button,
             HomeBtn,
             SubTitle,
+            ArchiveBtn,
 		},
 		data() {
 			return {
@@ -117,8 +123,12 @@
         width: 55%;
     }
 
-
-    .home_btn {
+    #all_btns {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+        min-width: 200px;
+        max-width: 300px;
         margin: 50px auto;
     }
 </style>

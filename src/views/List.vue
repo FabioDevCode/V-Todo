@@ -18,11 +18,7 @@
         </li>
     </ul>
 
-
-    <div id="bottom_btn" v-if="hideList">
-        <HomeBtn />
-        <Button @click="showModalAddTask()" class="btn_addtask" name="Ajouter une tâche" type="btn_green" />
-    </div>
+    <Button @click="showModalAddTask()" class="btn_addtask" v-if="hideList" name="Ajouter une tâche" type="btn_green" />
 
     <div id="back_modal" v-if="showModal">
         <form @submit.prevent>
@@ -42,6 +38,11 @@
         </button>
     </div>
 
+    <div id="all_btns">
+        <HomeBtn />
+        <ListBtn />
+        <ArchiveAdd />
+    </div>
 
 </template>
 <!-- Template/Script -->
@@ -52,6 +53,8 @@
     import SubTitle from "@/components/SubTitle.vue"
 	import Button from '@/components/Button.vue'
     import HomeBtn from '@/components/HomeBtn.vue'
+    import ArchiveAdd from '@/components/ArchiveAdd.vue'
+    import ListBtn from '@/components/ListBtn.vue'
     import { useListStore } from '@/stores/list.js'
 
 	export default {
@@ -62,6 +65,8 @@
             SubTitle,
             Button,
             HomeBtn,
+            ArchiveAdd,
+            ListBtn,
 		},
 		data() {
 			return {
@@ -212,7 +217,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
     }
 
     #list li {
@@ -308,18 +313,6 @@
         fill: rgba(45, 49, 66, .7);
     }
 
-    #bottom_btn {
-        width: 100%;
-        min-width: 200px;
-        max-width: 300px;
-        margin: 0 auto 10px auto;
-        display: flex;
-    }
-    #bottom_btn .btn_addtask {
-        margin-left: 5px;
-        width: calc(100% - 65px);
-    }
-
     #bottom_btndel {
         position: relative;
         width: 100%;
@@ -335,11 +328,16 @@
         width: 100%;
         height: 60px;
         font-size: 16px;
-        margin: 0 auto 50px auto;
+        margin: 0 auto;
         font-size: 1.2em;
         background-color: transparent;
         color: var(--color-red);
         border: 2px solid var(--color-red);
+    }
+
+    .btn_addtask {
+        background-color: crimson;
+        margin: 0 auto 15px auto !important;
     }
 
     /* Modal add task */
@@ -426,5 +424,13 @@
         color: var(--color-red);
     }
 
+    #all_btns {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+        min-width: 200px;
+        max-width: 300px;
+        margin: 50px auto;
+    }
 
 </style>

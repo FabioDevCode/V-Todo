@@ -31,6 +31,14 @@
         font-size: 16px;
         margin: 0;
         font-size: 1.2em;
+        box-shadow: 0 0 12px rgba(33, 33, 33, .6);
+    }
+    button a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
     }
     button svg {
         height: 26px;

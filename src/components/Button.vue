@@ -18,7 +18,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     .btn_green, .btn_blue, .btn_red {
         outline: none;
         font-family: 'Raleway', sans-serif;
@@ -30,6 +30,7 @@
         font-size: 16px;
         margin: 0 auto;
         font-size: 1.2em;
+        box-shadow: 0 0 12px rgba(33, 33, 33, .6);
     }
 
     .btn_green {
