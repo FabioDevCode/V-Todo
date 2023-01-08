@@ -120,11 +120,12 @@
         outline: none;
         font-family: 'Raleway', sans-serif;
         font-size: 1.1em;
-        font-weight: 400;
+        font-weight: 600;
     }
     #formlist input::placeholder {
         font-size: 1em;
         font-style: italic;
+        font-weight: 400;
     }
     #formlist input:focus {
         border: 3px solid var(--color-green);

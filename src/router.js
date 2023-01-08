@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import Home from '@/views/Home.vue';
 import List from '@/views/List.vue';
+import Encours from '@/views/Encours.vue';
 
 const routes = [
 	{
@@ -13,6 +14,11 @@ const routes = [
 		name: 'List',
 		component: List
 	},
+	{
+		path: '/V-Todo/En_cours',
+		name: 'Encours',
+		component: Encours
+	}
 ];
 
 const router = createRouter({

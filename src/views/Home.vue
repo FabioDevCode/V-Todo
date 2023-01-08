@@ -2,7 +2,7 @@
 	<div id="btn_sections">
 		<FormList />
 
-		<Button class="btns" name="Listes en cours" type="btn_blue" />
+		<Button class="btns" name="Listes en cours" type="btn_blue" @click="goToListEnCours()" />
 		<Button class="btns" name="Archives" type="btn_red" />
 	</div>
 </template>
@@ -23,7 +23,9 @@
 			}
 		},
 		methods: {
-
+			goToListEnCours() {
+				this.$router.push('/V-Todo/En_cours');
+			}
 		}
 	}
 </script>

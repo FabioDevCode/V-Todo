@@ -3,7 +3,7 @@
     <SubTitle :title="actualList.name" />
 
     <ul id="list">
-        <li @click="andedTask(actualList.tasks.indexOf(task))" :key="actualList.tasks.indexOf(task)" v-for="task in actualList.tasks" class="task">
+        <li @click="endedTask(actualList.tasks.indexOf(task))" :key="actualList.tasks.indexOf(task)" v-for="task in actualList.tasks" class="task">
             <div class="text">
                 <h3>
                     {{ task.title }}
@@ -33,9 +33,10 @@
                 Annuler
             </button>
         </form>
+
     </div>
 
-    <div id="bottom_btndel">
+    <div id="bottom_btndel" @click="deleteList()">
 		<button>
             Supprimer la liste
         </button>
@@ -75,19 +76,19 @@
 			}
 		},
         mounted() {
-            let actualNameList;
             if(useListStore().list.length > 0) {
-                actualNameList = useListStore().list;
+                this.list_name = useListStore().list;
             } else {
-                actualNameList = localStorage.getItem('f-devcode_actual-list');
+                this.list_name = localStorage.getItem('f-devcode_actual-list');;
             }
 
             const all_data = JSON.parse(localStorage.getItem('f-devcode_v-todo'));
             all_data.list.map(el => {
-                if(el.name === actualNameList) {
+                if(el.name === this.list_name) {
                     this.actualList = el;
                 }
             });
+
         },
 		methods: {
             showModalAddTask() {
@@ -117,8 +118,6 @@
                     desc: this.modalDesc
                 };
 
-                console.log(myTask);
-
                 const all_data = JSON.parse(localStorage.getItem('f-devcode_v-todo'));
                 all_data.list.map(el => {
                     if(el.name === this.actualList.name) {
@@ -145,25 +144,37 @@
                         }
                     }).showToast();
             },
-            andedTask(indexTask) {
-                console.log(indexTask);
+            endedTask(indexTask) {
+                // console.log(indexTask);
 
                 const endedTask = document.querySelectorAll('.task')[indexTask];
                 endedTask.classList.toggle('ended');
 
+
                 const all_data = JSON.parse(localStorage.getItem('f-devcode_v-todo'));
+
+                console.log(this.list_name);
+
                 all_data.list.map(el => {
-                    if(all_data.list.indexOf(el) === indexTask) {
-                        if(el.status === "todo") {
-                            el.status = "ended";
-                            this.actualList.tasks[indexTask].status = "ended";
+                    if(el.name === this.list_name) {
+                        if(el.tasks[indexTask].status === 'todo') {
+                            el.tasks[indexTask].status = 'ended';
                         } else {
-                            el.status = "todo";
-                            this.actualList.tasks[indexTask].status = "todo";
+                            el.tasks[indexTask].status = 'todo';
                         }
                     }
                 });
+
                 localStorage.setItem('f-devcode_v-todo', JSON.stringify(all_data));
+            },
+            deleteList() {
+                const all_data = JSON.parse(localStorage.getItem('f-devcode_v-todo'));
+                all_data.list.splice(all_data.list.indexOf(this.list_name), 1);
+                all_data.list_name.splice(all_data.list_name.indexOf(this.list_name), 1);
+                localStorage.setItem('f-devcode_v-todo', JSON.stringify(all_data));
+                localStorage.removeItem('f-devcode_actual-list');
+
+                this.$router.push('/V-Todo/');
             }
 
 
@@ -314,7 +325,7 @@
         position: absolute;
         display: flex;
         justify-content: center;
-        padding: 250px 0 0 0;
+        align-items: center;
         top: 0;
         left: 0;
         right: 0;

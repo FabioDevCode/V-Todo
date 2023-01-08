@@ -16,7 +16,7 @@
 
 <style scoped>
     h2 {
-		font-size: 2em;
+		font-size: 1.6em;
 		margin: 0 auto 20px auto;
 
 	}
