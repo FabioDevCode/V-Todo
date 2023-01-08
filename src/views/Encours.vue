@@ -6,7 +6,7 @@
     <ul id="list">
         <li :key="all_list.indexOf(list)" v-for="list in all_list" @click="showList(list.name)">
             <div>
-                {{ list.tasks.length }}
+                {{ list.tasks.length}}
             </div>
             <h3>
                 {{ list.name }}
@@ -42,8 +42,6 @@
         mounted() {
             const all_data = JSON.parse(localStorage.getItem('f-devcode_v-todo'));
             this.all_list = all_data.list;
-
-
         },
 		methods: {
             showList(name_list) {
@@ -54,7 +52,7 @@
             },
             perCenth(list) {
                 const arr_finished_tasks = []
-                list.tasks.map(el => {
+                list.tasks?.map(el => {
                     if(el.status === "ended") {
                         arr_finished_tasks.push(el)
                     }
@@ -62,7 +60,7 @@
 
                 let result;
 
-                if(!arr_finished_tasks.length && !list.tasks.length) {
+                if(!arr_finished_tasks?.length && !list.tasks?.length) {
                     result = 0
                 } else {
                     result = arr_finished_tasks.length/list.tasks.length*100;

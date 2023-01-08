@@ -1,9 +1,9 @@
 <template>
+    <SubTitle :title="actualList.name" v-if="hideList" />
+    <SubTitle :title="'Ajout de tâche à '+ actualList.name" v-if="showModal" />
 
-    <SubTitle :title="actualList.name" />
-
-    <ul id="list">
-        <li @click="endedTask(actualList.tasks.indexOf(task))" :key="actualList.tasks.indexOf(task)" v-for="task in actualList.tasks" class="task">
+    <ul id="list" v-if="hideList">
+        <li @click="endedTask(actualList.tasks.indexOf(task), task.title)"  :key="task.name" v-for="task in actualList.tasks" :class="'task ' + task.status">
             <div class="text">
                 <h3>
                     {{ task.title }}
@@ -13,12 +13,13 @@
                 </p>
             </div>
             <div class="trash">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
             </div>
         </li>
     </ul>
 
-    <div id="bottom_btn">
+
+    <div id="bottom_btn" v-if="hideList">
         <HomeBtn />
         <Button @click="showModalAddTask()" class="btn_addtask" name="Ajouter une tâche" type="btn_green" />
     </div>
@@ -33,10 +34,9 @@
                 Annuler
             </button>
         </form>
-
     </div>
 
-    <div id="bottom_btndel" @click="deleteList()">
+    <div id="bottom_btndel" @click="deleteList()" v-if="hideList">
 		<button>
             Supprimer la liste
         </button>
@@ -52,7 +52,6 @@
     import SubTitle from "@/components/SubTitle.vue"
 	import Button from '@/components/Button.vue'
     import HomeBtn from '@/components/HomeBtn.vue'
-
     import { useListStore } from '@/stores/list.js'
 
 	export default {
@@ -68,11 +67,14 @@
 			return {
                 list_name: useListStore().list,
                 actualList: {},
+                todoTasks: [],
+                endedTasks: [],
 
                 modalTitle: '',
                 modalDesc: '',
 
                 showModal: false,
+                hideList: true,
 			}
 		},
         mounted() {
@@ -82,16 +84,33 @@
                 this.list_name = localStorage.getItem('f-devcode_actual-list');;
             }
 
+            const newTodo = [];
+            const newEnded = [];
+
             const all_data = JSON.parse(localStorage.getItem('f-devcode_v-todo'));
             all_data.list.map(el => {
                 if(el.name === this.list_name) {
                     this.actualList = el;
+
+                    el.tasks.map(el => {
+                        if(el.status === 'todo') {
+                            newTodo.push(el);
+                        } else if(el.status === 'ended') {
+                            newEnded.push(el);
+                        }
+                    })
                 }
             });
 
+            useListStore().length = this.actualList.tasks.length;
+            useListStore().todo = newTodo;
+            useListStore().ended = newEnded;
+            this.todoTasks = newTodo;
+            this.endedTasks = newEnded;
         },
 		methods: {
             showModalAddTask() {
+                this.hideList = !this.hideList;
                 this.showModal = !this.showModal;
             },
             addNewTaskIntoList() {
@@ -113,7 +132,7 @@
                 };
 
                 const myTask = {
-                    status: "todo",
+                    status: 'todo',
                     title: this.modalTitle,
                     desc: this.modalDesc
                 };
@@ -123,6 +142,7 @@
                     if(el.name === this.actualList.name) {
                         el.tasks.push(myTask);
                         this.actualList.tasks.push(myTask);
+                        this.todoTasks.push(myTask);
                     }
                 });
                 localStorage.setItem('f-devcode_v-todo', JSON.stringify(all_data));
@@ -144,28 +164,35 @@
                         }
                     }).showToast();
             },
-            endedTask(indexTask) {
-                // console.log(indexTask);
+            endedTask(indexTask, titleTask) {
+                const allTasks = document.querySelectorAll('.task')[indexTask];
+                allTasks.classList.toggle('todo');
+                allTasks.classList.toggle('ended');
 
-                const endedTask = document.querySelectorAll('.task')[indexTask];
-                endedTask.classList.toggle('ended');
+                const dataForUpdateList = JSON.parse(JSON.stringify(this.actualList));
+                const newTasks = [];
+                dataForUpdateList.tasks.map(el => {
+                    if(el.title === titleTask) {
+                        if(el.status === 'todo') {
+                            el.status = 'ended';
+                        } else {
+                            el.status = 'todo';
+                        }
+                    };
+                    newTasks.push(el);
+                })
 
+                this.actualList.tasks = newTasks;
 
                 const all_data = JSON.parse(localStorage.getItem('f-devcode_v-todo'));
-
-                console.log(this.list_name);
-
                 all_data.list.map(el => {
-                    if(el.name === this.list_name) {
-                        if(el.tasks[indexTask].status === 'todo') {
-                            el.tasks[indexTask].status = 'ended';
-                        } else {
-                            el.tasks[indexTask].status = 'todo';
-                        }
+                    if(el.name === this.list_name){
+                        el.tasks = newTasks
                     }
+                    return el
                 });
 
-                localStorage.setItem('f-devcode_v-todo', JSON.stringify(all_data));
+                localStorage.setItem('f-devcode_v-todo', JSON.stringify(all_data));;
             },
             deleteList() {
                 const all_data = JSON.parse(localStorage.getItem('f-devcode_v-todo'));
@@ -176,8 +203,6 @@
 
                 this.$router.push('/V-Todo/');
             }
-
-
 		}
 	}
 </script>
@@ -319,17 +344,19 @@
 
     /* Modal add task */
     #back_modal {
-        z-index: 999;
-        background-color: teal;
-        background-color: rgba(45, 49, 66, .8);
-        position: absolute;
+        width: 100%;
+        min-width: 200px;
+        max-width: 300px;
+        /* background-color: rgba(45, 49, 66, .8); */
+        /* position: absolute; */
         display: flex;
         justify-content: center;
         align-items: center;
-        top: 0;
+        margin: 0 auto 50px auto;
+        /* top: 0;
         left: 0;
         right: 0;
-        bottom: 0;
+        bottom: 0; */
     }
 
     #back_modal form {

@@ -5,6 +5,9 @@ export const useListStore = defineStore('list', {
 	state() {
 		return {
 			list: "",
+			length: 0,
+			todo: [],
+            ended: []
 		}
 	},
 })
