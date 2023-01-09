@@ -7,8 +7,6 @@
 			<ListBtn />
 			<ArchiveBtn />
 		</div>
-		<!-- <Button class="btns" name="Listes en cours" type="btn_blue" @click="goToListEnCours()" />
-		<Button class="btns" name="Archives" type="btn_red" @click="goToArchive()" /> -->
 	</div>
 </template>
 
@@ -48,7 +46,6 @@
 	#btn_sections {
 		display: flex;
 		flex-direction: column;
-		margin-bottom: 100px;
 	}
 	#btn_sections .btns {
 		margin-bottom: 16px;
@@ -60,6 +57,6 @@
         width: 100%;
         min-width: 200px;
         max-width: 300px;
-        margin: 50px auto 0 auto;
+        margin: 50px auto;
     }
 </style>

@@ -27,7 +27,7 @@
 
             <Button class="btn_addtask" name="Ajouter" type="btn_green" @click="addNewTaskIntoList()" />
             <button @submit.prevent class="btn_backlist" @click="showModalAddTask()">
-                Annuler
+                Retour
             </button>
         </form>
     </div>
@@ -377,7 +377,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 0 auto 50px auto;
+        margin: 0 auto 20px auto;
     }
 
     #back_modal form {
@@ -443,8 +443,8 @@
         margin: 0 auto;
         font-size: 1.2em;
         background-color: var(--color-black);
-        border: 2px solid var(--color-red);
-        color: var(--color-red);
+        border: 2px solid var(--color-green);
+        color: var(--color-green);
     }
 
     #all_btns {
