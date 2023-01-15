@@ -32,16 +32,21 @@
         </form>
     </div>
 
-    <div id="bottom_btndel" @click="deleteList()" v-if="hideList">
-		<button>
+    <div id="bottom_btndel" v-if="hideList">
+		<button @click="deleteList()">
             Supprimer la liste
+        </button>
+
+        <button @click="addToArchive()">
+            Archiver la liste
         </button>
     </div>
 
     <div id="all_btns">
         <HomeBtn />
         <ListBtn />
-        <ArchiveAdd @click="addToArchive()" />
+        <ArchiveBtn />
+        <!-- <ArchiveAdd @click="addToArchive()" /> -->
     </div>
 
 </template>
@@ -53,6 +58,7 @@
     import SubTitle from "@/components/SubTitle.vue"
 	import Button from '@/components/Button.vue'
     import HomeBtn from '@/components/HomeBtn.vue'
+    import ArchiveBtn from '@/components/ArchiveBtn.vue'
     import ArchiveAdd from '@/components/ArchiveAdd.vue'
     import ListBtn from '@/components/ListBtn.vue'
     import { useListStore } from '@/stores/list.js'
@@ -65,6 +71,7 @@
             SubTitle,
             Button,
             HomeBtn,
+            ArchiveBtn,
             ArchiveAdd,
             ListBtn,
 		},
@@ -363,6 +370,16 @@
         background-color: transparent;
         color: var(--color-red);
         border: 2px solid var(--color-red);
+    }
+
+    #bottom_btndel button:nth-child(1) {
+        margin-bottom: 10px;
+    }
+
+    #bottom_btndel button:nth-child(2) {
+        color: rgb(200, 200, 200);
+        background-color: rgba(171, 35, 70, .2);
+        border: 2px solid transparent;
     }
 
     .btn_addtask {
